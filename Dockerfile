@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
     gnupg2 \
     software-properties-common \
     python
-    
+
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
 
 RUN add-apt-repository \
@@ -16,7 +16,7 @@ RUN add-apt-repository \
    $(lsb_release -cs) \
    stable"
 
-RUN apt-get update && apt-get install -y docker-ce 
+RUN apt-get update && apt-get install -y docker-ce
 
 # Getting pip
 RUN curl -O https://bootstrap.pypa.io/get-pip.py
@@ -31,8 +31,11 @@ RUN pip install awscli --upgrade --user
 RUN aws --version
 
 
-RUN go get -u github.com/golang/dep/cmd/dep
+RUN go get github.com/golang/dep/cmd/dep
 RUN go get github.com/onsi/ginkgo/ginkgo
+RUN mkdir $HOME/.docker && \
+    echo "{\n  \"credsStore\": \"ecr-login\"\n}" > $HOME/.docker/config.json
+RUN go get github.com/awslabs/amazon-ecr-credential-helper/ecr-login/cli/docker-credential-ecr-login
 RUN go get github.com/GetTerminus/convox-off-cluster-builder/cmd/convox-build-off-cluster
 
 ADD https://convox.com/install/linux.zip /tmp/convox.zip
