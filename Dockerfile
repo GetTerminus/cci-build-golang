@@ -38,5 +38,6 @@ RUN mkdir $HOME/.docker && \
 RUN go get github.com/awslabs/amazon-ecr-credential-helper/ecr-login/cli/docker-credential-ecr-login
 RUN go get github.com/GetTerminus/convox-off-cluster-builder/cmd/convox-build-off-cluster
 
-ADD https://convox.com/install/linux.zip /tmp/convox.zip
-RUN unzip /tmp/convox.zip -d /usr/local/bin
+
+ADD https://convox.com/cli/linux/convox /usr/local/bin/convox
+RUN chmod 755 /usr/local/bin/convox
